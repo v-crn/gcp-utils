@@ -54,7 +54,7 @@ def upload_dataframe(
     schema: list[bigquery.SchemaField] | None = None,
     time_format_dict: Optional[dict[str, str]] = None,
     unit_size: int = 10000,
-) -> None:
+) -> list[str]:
     df = df.where(df.notna(), None)
     table_id = f"{project_id}.{dataset_id}.{table_name}" if table_id is None else table_id
     table = bigquery.Table(table_id, schema=schema)
@@ -66,6 +66,7 @@ def upload_dataframe(
     else:
         df_list = [df]
 
+    errors = []
     for df_s in df_list:
         if method == "replace":
             if does_table_exist(project_id, dataset_id, table_name):
@@ -87,4 +88,6 @@ def upload_dataframe(
                     )
 
         rows = df_s.to_dict(orient="records")
-        errors = client.insert_rows_json(table=table, json_rows=rows)
+        errors.extend(client.insert_rows_json(table=table, json_rows=rows))
+
+    return errors
