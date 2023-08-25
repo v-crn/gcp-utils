@@ -56,7 +56,9 @@ def upload_dataframe(
     unit_size: int = 10000,
 ) -> list[str]:
     df = df.where(df.notna(), None)
-    table_id = f"{project_id}.{dataset_id}.{table_name}" if table_id is None else table_id
+    table_id = (
+        f"{project_id}.{dataset_id}.{table_name}" if table_id is None else table_id
+    )
     table = bigquery.Table(table_id, schema=schema)
 
     len_df = len(df)
