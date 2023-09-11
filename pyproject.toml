@@ -9,13 +9,14 @@ in-project = false
 
 [tool.poetry.dependencies]
 python = ">=3.9"
+cloudpickle = "^2.2.1"
 gcsfs = "*"
 google-cloud-bigquery = "*"
+google-cloud-secret-manager = "^2.16.3"
 google-cloud-storage = "*"
 numpy = "*"
 pandas = "*"
 tqdm = "*"
-cloudpickle = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
